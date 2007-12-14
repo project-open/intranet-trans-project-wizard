@@ -193,6 +193,49 @@ multirow append call_to_quote \
 
 
 
+# ---------------------------------------------------------------------
+# Hours Logged?
+# ---------------------------------------------------------------------
+
+set first_invoice_date [db_string first_invoice "
+	select	min(creation_date)
+	from	(
+			select	o.creation_date + '30 minutes'::interval as creation_date
+			from	im_costs c,
+				acs_objects o
+			where	c.cost_id = o.object_id and
+				c.project_id = :project_id and
+				cost_type_id in ([im_cost_type_invoice], [im_cost_type_quote])
+		    UNION
+			select	now() as creation_date
+		) t
+"]
+
+set hours1 [db_string hours1 "
+        select  sum(h.hours)
+        from    im_hours h
+        where   h.project_id = :project_id and
+		h.user_id = :user_id and
+		h.day < :first_invoice_date
+"]
+
+if {"" == $hours1} { set hours1 0 }
+if {$hours1 > 0} { set hours1_status 10} else { set hours1_status 0}
+
+set hours1_url "/intranet-timesheet2/hours/new"
+
+incr multi_row_count
+multirow append call_to_quote \
+    $status_display($hours1_status) \
+    "$hours1 [lang::message::lookup "" intranet-trans-project-wizard.Hours "Hours(s)"]" \
+    [export_vars -base $hours1_url {project_id return_url}] \
+    [lang::message::lookup "" intranet-trans-project-wizard.Hours1_name "Log Your Hours for Creating This Quote"] \
+    [lang::message::lookup "" intranet-trans-project-wizard.Hours1_descr "
+	Please log your hours that you've spend to create the quote."] \
+    $bgcolor([expr $multi_row_count % 2])
+
+
+
 
 
 # ------------------------------------------------------------------------------------------------
