@@ -261,7 +261,7 @@ set missing_task_list {}
 set upload_files_url ""
 if {$trans_tasks > 0} {
 
-    set missing_task_list [im_task_missing_file_list $project_id]
+    set missing_task_list [im_task_missing_file_list -no_complain 1 $project_id]
     set task_id [lindex $missing_task_list 0]
     set upload_files_url [export_vars -base "/intranet-translation/trans-tasks/upload-task" {project_id task_id return_url}]
     set file_upload_status [expr round(10.0 * ($trans_tasks - [llength $missing_task_list]) / $trans_tasks)]
