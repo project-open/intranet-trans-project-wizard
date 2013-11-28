@@ -573,7 +573,7 @@ set paid_invoices [db_string paid_invoices "
 "]
 
 if {0 != $invoices} {
-    set paid_invoices_status [expr round($paid_invoices / $invoices)]
+    set paid_invoices_status [expr round(10.0 * $paid_invoices / $invoices)]
 } else {
     set paid_invoices_status 0
 }
@@ -590,5 +590,4 @@ multirow append invoicing \
     [lang::message::lookup "" intranet-trans-project-wizard.Paid_Invoices_descr "
 	Each Invoice should register a payment."] \
     $bgcolor([expr $multi_row_count % 2])
-
 
