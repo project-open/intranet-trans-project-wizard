@@ -52,7 +52,7 @@ set status_display(8) "<img src=$progress_url.8.gif>"
 set status_display(9) "<img src=$progress_url.9.gif>"
 set status_display(10) "<img src=$progress_url.10.gif>"
 
-set freelance_invoices_installed_p [util_memoize "db_string freelance_inv_exists \"select count(*) from apm_packages where package_key = 'intranet-freelance-invoices'\""]
+set freelance_invoices_installed_p [util_memoize [list db_string freelance_inv_exists "select count(*) from apm_packages where package_key = 'intranet-freelance-invoices'"]]
 
 
 # ---------------------------------------------------------------------
