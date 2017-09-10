@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="intranet-trans-project-wizard" locale="en_US" charset="ISO-8859-1">
+
+  <msg key="Invoicing_Workflow_descr">Lassen Sie sich vom Workflow für Rechnungen leiten.</msg>
+</message_catalog>
